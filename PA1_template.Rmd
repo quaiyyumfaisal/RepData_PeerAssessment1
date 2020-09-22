@@ -22,7 +22,7 @@ which is then created as a new project by using its URL in Rstudio version
 to "activity.csv" in my working directory. After that, the following R code was run
 to load the data:
 
-```{r, echo=TRUE}
+```{r echo=TRUE}
 library(ggplot2)
 
 activity <- read.csv("activity.csv")
@@ -30,7 +30,7 @@ activity <- read.csv("activity.csv")
 ```
 
 Exploring the basics of the data
-```{r,echo=TRUE}
+```{r, echo=TRUE}
 summary(activity)
 names(activity)
 head(activity)
@@ -42,17 +42,17 @@ str(activity)
 
 1. Calculating the total number of steps taken per day
 
-```{r}
+```{r echo=TRUE}
 stepsPerDay <- aggregate(steps ~ date, activity, sum, na.rm=TRUE)
 names(stepsPerDay) <- c("date", "steps")
 ```
 
 2. Making a histogram of total number of steps taken per day:  
 
-```{r, echo=TRUE}
-png("Total number of steps taken per day.png")
+```{r echo=TRUE}
+
 hist(stepsPerDay$steps, col = "dark blue", xlab = "Total steps taken per day", main = " Total number of steps taken per day",ylim = c(0,20), breaks = seq(0,25000, by=2500))
-dev.off()
+
 
 ```  
 
@@ -73,9 +73,9 @@ medianStepsPerDay
 
 ```{r, echo=TRUE}
 stepsPerInterval<-aggregate(steps~interval, data=activity, mean, na.rm=TRUE)
-png("Average number of steps per intervals.png")
+
 plot(steps~interval, data=stepsPerInterval, type="l", col = "sky blue", xlab = "Interval", ylab = "Average number of steps", main = "Average number of steps per intervals", lwd = 2)
-dev.off()
+
 
 ```  
 
@@ -120,9 +120,9 @@ for(i in 1:nrow(activityDataNoNA)){
 
 ```{r, echo=TRUE}
 totalStepsPerDayNoNA <- aggregate(steps ~ date, data=activityDataNoNA, sum)
-png("Total number of steps taken each day without NA values.png")
+
 hist(totalStepsPerDayNoNA$steps, col = "dark blue", xlab = "Total steps per day", main ="Total number of steps taken each day without NA values", breaks = seq(0,25000, by=2500))
-dev.off()
+
 ```
 
 5. Here is the mean of the total number of steps taken per day:
@@ -158,8 +158,8 @@ stepsByDay <- aggregate(activityDataNoNA$steps ~ activityDataNoNA$interval + act
 ```{r, echo=TRUE}
 names(stepsByDay) <- c("interval", "day", "steps")
 library(ggplot2)
-png("Average daily steps by type of day.png")
+
 plot <- ggplot(stepsByDay, aes(x = interval, y = steps, color = day ))+geom_line()+labs(title = "Average daily steps by type of day", x = "Interval", y = "Average number of steps")+facet_wrap(.~day, ncol = 1, nrow=2)
 print(plot)
-dev.off()
+
 ```
